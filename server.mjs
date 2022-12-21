@@ -22,14 +22,14 @@ let productSchema = new mongoose.Schema({
 const productModel = mongoose.model('products', productSchema);
  
 
-app.post('/product', (req, res) => {
+app.post("/product", (req, res) => {
 
   const body = req.body;
 
   if ( // validation
       !body.name
-      || !body.price
-      || !body.description
+      && !body.price
+      && !body.description
   ) {
       res.status(400).send({
           message: "required parameters missing",
@@ -37,9 +37,7 @@ app.post('/product', (req, res) => {
       return;
   }
 
-  console.log(body.name)
-  console.log(body.price)
-  console.log(body.description)
+
 
   // products.push({
   //     id: `${new Date().getTime()}`,
@@ -116,31 +114,7 @@ app.get("/products", (req, res) => {
       }
     });
   });
-// app.get('/product/:id', (req, res) => {
 
-//     const id = req.params.id;
-
-//     let isFound = false;
-//     for (let i = 0; i < products.length; i++) {
-
-//         if (products[i].id === id) {
-//             res.send({
-//                 message: `get product by id: ${products[i].id} success`,
-//                 data: products[i]
-//             });
-
-//             isFound = true
-//             break;
-//         }
-//     }
-//     if (isFound === false) {
-//         res.status(404)
-//         res.send({
-//             message: "product not found"
-//         });
-//     }
-//     return;
-// })
 
 app.delete('/product/:id', (req, res) => {
     const id = req.params.id;
@@ -174,12 +148,12 @@ app.delete('/product/:id', (req, res) => {
 app.put('/product/:id', async (req, res) => {
 
     const body = req.body;
-    const id = req.params.id;
+    const id = req.params.editingId;
 
     if (
-        body.name ||
-        body.price ||
-        body.description
+        !body.name ||
+       !body.price ||
+       !body.description
     ) {
         res.status(400).send(` required parameter missing. example request body:
         {
