@@ -82,27 +82,27 @@ let editObj=   {
 
 
 
-    // let object ={
-    //   name: name,
-    //   price: price,
-    //   description: description
-    // }
+    let object ={
+      name: name,
+      price: price,
+      description: description
+    }
                // Add Products
   
           
            
-          const saveProduct =  (e) => {
+          const saveProduct = async (e) => {
             e.preventDefault();
             try {
-              const response =  axios.post(`${baseURI}/product`,
-              
-               {
-                name: name,
-                price: price,
-                description: description,
-              });
+              const response = await axios.post(`${baseURI}/product`, object)
+             
+              //  {
+              //   name: name,
+              //   price: price,
+              //   description: description,
+              // });
               setToggleReload(!toggleReload)
-           
+              console.log(object)
             toast.success('Added Sucessfully', {
             position: "top-center",
             autoClose: 5000,
