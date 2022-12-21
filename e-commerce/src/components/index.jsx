@@ -4,7 +4,7 @@ import { EmojiEmotions, ExpandMore, Group, Home, Image, Share, Mail, Margin, Mes
    PersonAdd, Place, PlayArrow, PlayCircle, Storefront, VideoCameraBack, YouTube, Favorite, MoreVert,
     Drafts, Send, Inbox, StarBorder, ExpandLess, LiveTv, SportsEsports, CheckBox,
    FavoriteBorder, ToggleOffOutlined, Mode, ModeNight,PeopleAlt, Logout} from '@mui/icons-material'
-
+   import moment from 'moment'
 import 'react-toastify/dist/ReactToastify.css';
 
 import { ToastContainer, toast } from 'react-toastify';
@@ -42,7 +42,7 @@ function Products() {
         editingDescription: ""
       }
     );
-  
+   
     const [open, setOpen] = useState(false);
        // Get All Products
 
@@ -52,7 +52,7 @@ function Products() {
         axios.get(`${baseURI}/products`)
           .then(response => {
             console.log("AllProducts", response.data.data);
-            setProducts(response?.data?.data)
+            setProducts(response.data.data.reverse())
           })
           .catch(err => {
             console.log("err", err);
@@ -82,45 +82,25 @@ let editObj=   {
 
 
 
-    let object ={
-      name: name,
-      price: price,
-      description: description
-    }
+    // let object ={
+    //   name: name,
+    //   price: price,
+    //   description: description
+    // }
                // Add Products
-      
-    // const saveProduct = async (e) => {
-    //     e.preventDefault();
-    //     axios.post(`${baseUrl}/product`, object)
-    //     .then(response => {
-    //       console.log(response.data.data);
-    //       setProducts(response.data.data)
-    //       setToggleReload(!toggleReload)
-         
-    //       toast.success('Added Sucessfully', {
-    //         position: "top-center",
-    //         autoClose: 5000,
-    //         hideProgressBar: false,
-    //         closeOnClick: true,
-    //         pauseOnHover: true,
-    //         draggable: true,
-    //         progress: undefined,
-    //         theme: "light",
-    //         });
-              
-    //     })
-          // console.log("post", object);
+  
           
            
-          const saveProduct = async (e) => {
+          const saveProduct =  (e) => {
             e.preventDefault();
             try {
-              const response = await axios.post(`${baseURI}/product`, object)
-              //  {
-              //   name: name,
-              //   price: price,
-              //   description: description
-              // });
+              const response =  axios.post(`${baseURI}/product`,
+              
+               {
+                name: name,
+                price: price,
+                description: description,
+              });
               setToggleReload(!toggleReload)
            
             toast.success('Added Sucessfully', {
@@ -138,9 +118,8 @@ let editObj=   {
             }
           };
            
-
-         
-        
+       
+          
         
         
   
@@ -460,7 +439,7 @@ let editObj=   {
           </IconButton>
         }
         title= {eachProduct?.name}
-        subheader={new Date().toDateString()}
+        subheader={moment(eachProduct.createdOn).fromNow()} 
       />
       <CardMedia
         component="img"
@@ -491,7 +470,7 @@ let editObj=   {
        <Button className="edit"
        variant="outlined" color="success" onClick={() => {
                           setEditProduct({
-                            editingId: eachProduct?.id,
+                            editingId: eachProduct?._id,
                             editingName: eachProduct?.name,
                             editingPrice: eachProduct?.price,
                             editingDescription: eachProduct?.description
@@ -506,14 +485,14 @@ let editObj=   {
        <DeleteIcon />
        </IconButton>  */}
         <Button variant="outlined" startIcon={<DeleteIcon />}  onClick={()=>{
-        deleted(eachProduct?.id);  }}> 
+        deleted(eachProduct?._id);  }}> 
         Delete
       </Button>
        </div> 
 
 
        {
-        (eachProduct.id === editProduct.editingId ) ?
+        (eachProduct._id === editProduct.editingId ) ?
            (<div>
            
                 <h1>update form</h1>
