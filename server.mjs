@@ -6,7 +6,7 @@ import mongoose from 'mongoose';
 const app = express()
 const port = process.env.PORT || 5001;
 const mongodbURI = process.env.mongodbURI || "mongodb+srv://abc:awais123@cluster0.h4fc1n7.mongodb.net/Products?retryWrites=true&w=majority";
-// const mongodbURI = process.env.mongodbURI || "mongodb+srv://dbuser:dbpassword@cluster0.gq9n2zr.mongodb.net/abcdatabase?retryWrites=true&w=majority";
+
 mongoose.set('strictQuery', true);
 app.use(cors());
 app.use(express.json());
@@ -39,12 +39,7 @@ app.post("/product", (req, res) => {
 
 
 
-  // products.push({
-  //     id: `${new Date().getTime()}`,
-  //     name: body.name,
-  //     price: body.price,
-  //     description: body.description
-  // });
+  
 
   productModel.create({
       name: body.name,
